@@ -1,0 +1,27 @@
+@startuml
+
+actor User
+participant Frontend
+participant Backend
+participant Firebase
+
+header Registration
+
+User -> Frontend: Clicks on register button
+Frontend -> Firebase: Register via Firebase SDK
+Firebase --> Frontend: email + idToken + refreshToken
+Frontend -> Backend: POST /auth/register <color gray><i>{ token: idToken }</i></color>
+Backend -> Backend: Verify token
+
+alt Valid token
+    Backend -> Backend: Create User
+    Backend --> Frontend: <color green>successfully registered</color>
+    Frontend -> User: Redirect to home page
+else Invalid token
+    Backend --> Frontend: <color red>error</color>
+    Frontend -> User: Redirect to login page
+end
+
+
+
+@enduml

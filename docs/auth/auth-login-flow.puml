@@ -1,0 +1,22 @@
+@startuml
+
+actor User
+participant Frontend
+participant Backend
+participant Firebase
+
+header Login
+
+User -> Frontend: Clicks on log in button
+Frontend -> Firebase: Login via Firebase SDK
+Firebase --> Frontend: email + idToken + refreshToken
+Frontend -> Backend: GET /user/me
+Backend -> Backend: Verify token
+
+alt Valid token
+    Backend --> Frontend: <color green>user profile data</color>
+else Invalid token
+    Backend --> Frontend: <color red>unauthorized</color>
+end
+
+@enduml
